@@ -16,6 +16,38 @@ The program takes a set of jobs as input and outputs the start time for each job
 
 The solution utilizes a `dynamic programming algorithm` combined with a `greedy` approach to minimize the machine's busy time. The jobs are sorted by their release times, and the algorithm iteratively finds feasible start times while trying to maximize the overlap of jobs to reduce the total active time of the machine. The greedy component helps in choosing the optimal start time for each job to ensure the machine is busy for the least amount of time.
 
+## Pseudocode and Running Time Analysis
+```
+function minimizeBusyTime(jobs):
+    # Sort jobs by release time
+    sort(jobs, by release time)
+    n = length(jobs)
+    start_times = array of size n, initialized to 0
+    active_intervals = empty list
+
+    for i from 0 to n - 1:
+        (r, d, p) = jobs[i]
+        start_time = r
+
+        # Check active intervals to find the earliest available start time
+        for each (end_time, job_index) in active_intervals:
+            if end_time <= r:
+                start_time = max(start_time, end_time)
+                remove (end_time, job_index) from active_intervals
+
+        # Update the start time for the job
+        start_times[i] = start_time
+        add (start_time + p, i) to active_intervals
+        sort(active_intervals, by end time)
+
+    return start_times
+
+```
+* Sorting the jobs initially takes **O(n logn)** time, where n is the number of jobs.
+* Iterating over n jobs takes  **O(n)** time
+* In the worst case, maintaining and sorting the active intervals can take O(n log n) time, since we need to insert and remove elements while keeping the list sorted.
+* Overall time complexity: **O(n logn)**
+
 ## Folder Structure
 
 The project folder contains the following structure:
